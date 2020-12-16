@@ -1,0 +1,104 @@
+<?php
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+$_product = $block->getProduct();
+$onRequest = $_product->getData('sob_encomenda');
+$buttonTitle = $onRequest == 1 ? __('Fazer Orçamento') : __('Add to Cart');
+?>
+<?php if ($_product->isSaleable()) :?>
+    <div id="modal-overlay" style="display:none;">
+        <div class="overlay-content">
+            <div class="title">
+                <h2>My modal title here</h2>
+            </div>
+            <p>My description title here</p>
+
+        </div>
+    </div>
+    <div class="box-tocart">
+        <div class="fieldset">
+            <?php if ($block->shouldRenderQuantity()) :?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                    <div class="control">
+                        <input type="number"
+                               name="qty"
+                               id="qty"
+                               min="0"
+                               value="<?= $block->getProductDefaultQty() * 1 ?>"
+                               title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                               class="input-text qty"
+                               data-validate="<?= $block->escapeHtmlAttr(json_encode($block->getQuantityValidators())) ?>"
+                        />
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="actions">
+                <?php if($onRequest == 1): ?>
+                    <button type="button" class="action primary tocart" data-trigger="trigger" id="product-addtocart-button" disabled>
+                        <span><?= $block->escapeHtml($buttonTitle) ?></span>
+                    </button>
+                    <div data-bind="mageInit: {
+                        'Magento_Ui/js/modal/modal':{
+                            'type': 'popup',
+                            'title': 'Fazer orçamento - SKU#: <?= $_product->getSku(); ?>',
+                            'trigger': '[data-trigger=trigger]',
+                            'responsive': true,
+                            'buttons': [{
+                                text: jQuery.mage.__('Enviar'),
+                                class: 'action primary'
+                            }]
+                        }}">
+                        <div class="content">
+                            <fieldset class="fieldset">
+                                <div class="field name required">
+                                    <label class="label" for="name"><span><?= $block->escapeHtml(__('Nome')) ?></span></label>
+                                    <div class="control">
+                                        <input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('Nome')) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                                    </div>
+                                </div>
+                                <div class="field email required">
+                                    <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                                    <div class="control">
+                                        <input name="email" id="email"
+                                               title="<?= $block->escapeHtmlAttr(__('Email')) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+                                    </div>
+                                </div>
+                                <div class="field telephone">
+                                    <label class="label" for="telephone"><span><?= $block->escapeHtml(__('Telefone')) ?></span></label>
+                                    <div class="control">
+                                        <input name="telephone" id="telephone" title="<?= $block->escapeHtmlAttr(__('Telefone')) ?>" class="input-text" type="text" />
+                                    </div>
+                                </div>
+                                <div class="field comment required">
+                                    <label class="label" for="comment"><span><?= $block->escapeHtml(__('Mais informações')) ?></span></label>
+                                    <div class="control">
+                                        <textarea name="comment" id="comment" title="<?= $block->escapeHtmlAttr(__('Mais informações')) ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                                    </div>
+                                </div>
+                                <?= $block->getChildHtml('form.additional.info') ?>
+                            </fieldset>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <button type="submit"
+                            title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                            class="action primary tocart"
+                            id="product-addtocart-button" disabled>
+                        <span><?= $block->escapeHtml($buttonTitle) ?></span>
+                    </button>
+                <?php endif; ?>
+
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
