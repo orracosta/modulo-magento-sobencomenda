@@ -4,7 +4,7 @@
 
 $_product = $block->getProduct();
 $onRequest = $_product->getData('sob_encomenda');
-$buttonTitle = $onRequest == 1 ? __('Fazer Orçamento') : __('Add to Cart');
+$buttonTitle = $onRequest == 1 ? __('Request budget') : __('Add to Cart');
 ?>
 <?php if ($_product->isSaleable()) :?>
     <div id="modal-overlay" style="display:none;">
@@ -42,20 +42,20 @@ $buttonTitle = $onRequest == 1 ? __('Fazer Orçamento') : __('Add to Cart');
                     <div data-bind="mageInit: {
                         'Magento_Ui/js/modal/modal':{
                             'type': 'popup',
-                            'title': 'Fazer orçamento - SKU#: <?= $_product->getSku(); ?>',
+                            'title': '<?= __('Request budget') ?> - SKU#: <?= $_product->getSku(); ?>',
                             'trigger': '[data-trigger=trigger]',
                             'responsive': true,
                             'buttons': [{
-                                text: jQuery.mage.__('Enviar'),
+                                text: jQuery.mage.__('Submit'),
                                 class: 'action primary'
                             }]
                         }}">
                         <div class="content">
                             <fieldset class="fieldset">
                                 <div class="field name required">
-                                    <label class="label" for="name"><span><?= $block->escapeHtml(__('Nome')) ?></span></label>
+                                    <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
                                     <div class="control">
-                                        <input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('Nome')) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                                        <input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('Name')) ?>" class="input-text" type="text" data-validate="{required:true}"/>
                                     </div>
                                 </div>
                                 <div class="field email required">
@@ -66,15 +66,15 @@ $buttonTitle = $onRequest == 1 ? __('Fazer Orçamento') : __('Add to Cart');
                                     </div>
                                 </div>
                                 <div class="field telephone">
-                                    <label class="label" for="telephone"><span><?= $block->escapeHtml(__('Telefone')) ?></span></label>
+                                    <label class="label" for="telephone"><span><?= $block->escapeHtml(__('Phone Number')) ?></span></label>
                                     <div class="control">
-                                        <input name="telephone" id="telephone" title="<?= $block->escapeHtmlAttr(__('Telefone')) ?>" class="input-text" type="text" />
+                                        <input name="telephone" id="telephone" title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>" class="input-text" type="text" />
                                     </div>
                                 </div>
                                 <div class="field comment required">
-                                    <label class="label" for="comment"><span><?= $block->escapeHtml(__('Mais informações')) ?></span></label>
+                                    <label class="label" for="comment"><span><?= $block->escapeHtml(__('More information')) ?></span></label>
                                     <div class="control">
-                                        <textarea name="comment" id="comment" title="<?= $block->escapeHtmlAttr(__('Mais informações')) ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                                        <textarea name="comment" id="comment" title="<?= $block->escapeHtmlAttr(__('More information')) ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
                                     </div>
                                 </div>
                                 <?= $block->getChildHtml('form.additional.info') ?>
